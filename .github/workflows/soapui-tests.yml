@@ -1,0 +1,27 @@
+name: SoapUI Tests
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Java #(requerido para SoapUI)
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Download SoapUI
+        run: |
+          wget https://s3.amazonaws.com/downloads.eviware/soapuios/5.7.0/SoapUI-5.7.0-linux-bin.tar.gz
+          tar -xzf SoapUI-5.7.0-linux-bin.tar.gz
+
+      - name: Run SoapUI Tests
+        run: ./SoapUI-5.7.0/bin/testrunner.sh -r -j -f reports tests/soapui/jsonplaceholder.xml
+
+      - name: Upload Test Reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: soapui-reports
+          path: reports/

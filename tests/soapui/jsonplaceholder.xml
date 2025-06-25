@@ -1,0 +1,23 @@
+<soapui-project name="JSONPlaceholderUsers" xmlns="http://eviware.com/soapui/config">
+  <interface name="UsersAPI" type="REST">
+    <path>https://jsonplaceholder.typicode.com/users</path>
+  </interface>
+  <testSuite name="UsersAPITests">
+    <testCase name="GetUserById">
+      <testStep type="restrequest" name="GET_User_1">
+        <config>
+          <service>UsersAPI</service>
+          <resourcePath>/1</resourcePath>
+          <method>GET</method>
+        </config>
+      </testStep>
+      <assertion type="ValidHTTPStatusCodes" name="Status Code 200">
+        <codes>200</codes>
+      </assertion>
+      <assertion type="JsonPathMatch" name="Name exists">
+        <path>$.name</path>
+        <content>Leanne Graham</content>
+      </assertion>
+    </testCase>
+  </testSuite>
+</soapui-project>
